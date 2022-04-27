@@ -1,0 +1,27 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "The best way to watch videos.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juusung2013/Wetube-Clone.git"
+  },
+  "scripts": {
+    "dev": "nodemon --exec babel-node index.js"
+  },
+  "author": "Park Juseong<juusung2013@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juusung2013/Wetube-Clone/issues"
+  },
+  "homepage": "https://github.com/juusung2013/Wetube-Clone#readme",
+  "dependencies": {
+    "express": "^4.18.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "nodemon": "^2.0.15"
+  }
+}
