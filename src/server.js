@@ -10,10 +10,12 @@ const PORT = 4000;
 
 //express, morgan 사용하기 위해 application 선언
 const app = express();
-
 const logger = morgan("dev");
-app.use(logger);
 
+app.set("view engine", "pug"); //express에게 view engine으로 pug 사용한다고 알림
+app.set("views", process.cwd() + "/src/views"); //cwd src 폴더로 변경
+app.use(logger); //morgan 연결
+//모든 Router 연결
 app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
