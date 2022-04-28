@@ -6,11 +6,12 @@ Global Routers = root와 가장 가까운 녀셕들
 /login -> Login Page
 /search -> Search Video
 
-/useres/edit -> Edit User Profile
-/useres/delete -> Delete User Profile
+/users/:id -> See User
+/users/logout -> Log Out
+/users/edit -> Edit My Profile
+/users/delete -> Delete My Profile
 
-/videos/watch -> Watch Video
-/videos/edit -> Edit Vieo
-/videos/delete -> Delete Video
-/videos/comments -> Commet on a video
-/videos/comments/delete -> Delete A Comment of a video
+/videos/:id -> See Video
+/videos/:id/edit -> Edit Vieo
+/videos/:id/delete -> Delete Video
+/videos/upload -> Upload Video
