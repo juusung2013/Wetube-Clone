@@ -1,3 +1,4 @@
+import "./db"; // db.js 파일 자체를 연결
 import express from "express";
 import res from "express/lib/response";
 import morgan from "morgan";
@@ -24,6 +25,6 @@ app.use("/videos", videoRouter);
 
 //Server Listening
 const handleListening = () =>
-  console.log(`Server listening on port http://localhost:${PORT} 🚀`);
+  console.log(`👌Server listening on port http://localhost:${PORT} 🚀`);
 
 app.listen(PORT, handleListening);
