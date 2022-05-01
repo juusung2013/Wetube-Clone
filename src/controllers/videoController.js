@@ -32,9 +32,33 @@ export const trending = (req, res) => {
 export const watch = (req, res) => {
   const { id } = req.params; // 데이터베이스에서 각 데이터의 id값 뽑아옴
   const video = videos[id - 1]; // videos 변수에서 뽑아온 id값에서 -1하여 대입
-  return res.render("watch", { pageTitle: `Watching ${video.title}`, video }); //watch.pug 위한 pageTitle 변수 지정
+  return res.render("watch", { pageTitle: `Watching: ${video.title}`, video }); //watch.pug 위한 pageTitle 변수 지정
 };
-export const edit = (req, res) => res.render("edit");
-export const search = (req, res) => res.send("Search Video");
-export const upload = (req, res) => res.send("Upload");
-export const deleteVideo = (req, res) => res.send("Delete Video");
+export const getEdit = (req, res) => {
+  const { id } = req.params; // 데이터베이스에서 각 데이터의 id값 뽑아옴
+  const video = videos[id - 1]; // videos 변수에서 뽑아온 id값에서 -1하여 대입
+  return res.render("edit", { pageTitle: `Editing: ${video.title}`, video });
+}; // form을 화면에 보여주는 녀석
+export const postEdit = (req, res) => {
+  const { id } = req.params; // 데이터베이스에서 각 데이터의 id값 뽑아옴
+  const { title } = req.body; // form의 body에서 오는 title 획득, name="" 없으면 읽어올 수 없음
+  videos[id - 1].title = title; //기존의 title을 새로 얻은 title로 변경
+  return res.redirect(`/videos/${id}`); // 수정된 데이터를 다시 돌려보냄
+}; // form 변경 사항을 저장해주는 녀석
+
+export const getUpload = (req, res) => {
+  return res.render("upload", { pageTitle: `Upload Video` });
+};
+export const postUpload = (req, res) => {
+  const { title } = req.body;
+  const newVideo = {
+    title,
+    rating: 0,
+    comments: 0,
+    createdAt: "just now",
+    views: 0,
+    id: videos.length + 1,
+  };
+  videos.push(newVideo);
+  return res.redirect("/");
+};

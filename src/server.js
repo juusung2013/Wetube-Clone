@@ -15,6 +15,8 @@ const logger = morgan("dev");
 app.set("view engine", "pug"); //express에게 view engine으로 pug 사용한다고 알림
 app.set("views", process.cwd() + "/src/views"); //cwd src 폴더로 변경
 app.use(logger); //morgan 연결
+app.use(express.urlencoded({ extended: true })); // express가 form의 value들을 이해할 수 있도록 하고, JS 객체 형식으로 변형시킴
+
 //모든 Router 연결
 app.use("/", globalRouter);
 app.use("/users", userRouter);
