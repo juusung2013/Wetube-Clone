@@ -1,5 +1,5 @@
 import express from "express";
-import { trending } from "../controllers/videoController";
+import { home } from "../controllers/videoController";
 import { join, login } from "../controllers/userController";
 
 //각각의 js 파일들은 자기만의 세계를 갖고 있음
@@ -7,7 +7,7 @@ import { join, login } from "../controllers/userController";
 
 const globalRouter = express.Router();
 
-globalRouter.get("/", trending); //추천 video 보여주기에 vdioController로
+globalRouter.get("/", home); //추천 video 보여주기에 vdioController로
 globalRouter.get("/join", join); //user가 join하기에 userController로
 globalRouter.get("/login", login);
 
