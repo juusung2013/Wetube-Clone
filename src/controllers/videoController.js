@@ -14,7 +14,7 @@ export const watch = async (req, res) => {
   const { id } = req.params; // 데이터베이스에서 각 데이터의 id값 뽑아옴
   const video = await Video.findById(id);
   if (!video /* = video === null */) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   return res.render("watch", { pageTitle: video.title, video }); //watch.pug 위한 pageTitle 변수 지정
 };
@@ -23,7 +23,7 @@ export const getEdit = async (req, res) => {
   const { id } = req.params; // 데이터베이스에서 각 데이터의 id값 뽑아옴
   const video = await Video.findById(id);
   if (!video /* = video === null */) {
-    return res.render("404", { pageTitle: "Video not found." });
+    return res.status(404).render("404", { pageTitle: "Video not found." });
   }
   return res.render("edit", { pageTitle: `Edit: ${video.title}`, video });
 }; // form을 화면에 보여주는 녀석
@@ -57,7 +57,7 @@ export const postUpload = async (req, res) => {
     });
     return res.redirect("/");
   } catch (error) {
-    return res.render("upload", {
+    return res.status(400).render("upload", {
       pageTitle: `Upload Video`,
       errorMessage: error._message,
     });

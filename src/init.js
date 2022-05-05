@@ -3,6 +3,7 @@
 
 import "./db"; // db.js 파일 자체를 연결
 import "./models/Video";
+import "./models/User";
 import app from "./server";
 
 const PORT = 4000;
