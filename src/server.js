@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 //router 파일들 import, default router이기에 이름 바꿔도 됨. 하지만 헷갈리니 굳이 바꾸진 않음
 import rootRouter from "./router/rootRouter";
 import userRouter from "./router/userRouter";
@@ -17,10 +18,12 @@ app.use(logger); //morgan 연결
 app.use(express.urlencoded({ extended: true })); // express가 form의 value들을 이해할 수 있도록 하고, JS 객체 형식으로 변형시킴
 
 app.use(
+  // express-session
   session({
-    secret: "Hello!",
-    resave: true,
-    saveUninitialized: true,
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
 
