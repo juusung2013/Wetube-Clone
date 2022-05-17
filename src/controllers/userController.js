@@ -1,6 +1,7 @@
 import User from "../models/User";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
+import Video from "../models/Video";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
@@ -148,9 +149,11 @@ export const postEdit = async (req, res) => {
   const {
     body: { name, username, email, location },
     session: {
-      user: { _id },
+      user: { _id, avatarUrl },
     },
+    file,
   } = req;
+  console.log(req.file);
 
   const exists = await User.exists({
     _id: { $ne: { _id } },
@@ -166,6 +169,7 @@ export const postEdit = async (req, res) => {
   const userUpdate = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       email,
       username,
@@ -177,4 +181,48 @@ export const postEdit = async (req, res) => {
   res.redirect("/users/edit");
 };
 
-export const see = (req, res) => res.send("See User");
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    return res.redirect("/");
+  }
+  return res.render("users/change-password", { pageTitle: `Change Password` });
+};
+export const postChangePassword = async (req, res) => {
+  const {
+    body: { oldPassword, newPassword, newPassword1 },
+    session: {
+      user: { _id },
+    },
+  } = req;
+  const user = await User.findById(_id);
+  const ok = await bcrypt.compare(oldPassword, user.password);
+  if (!ok) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The current password is incorrect",
+    });
+  }
+  if (newPassword !== newPassword1) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The password does not match the confirmation",
+    });
+  }
+  user.password = newPassword;
+  await user.save();
+
+  return res.redirect("/users/logout");
+};
+
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate("videos");
+  if (!user) {
+    res.status(404).render("404", { pageTitle: "User not found." });
+  }
+
+  return res.render("users/profile", {
+    pageTitle: user.name,
+    user,
+  });
+};

@@ -7,7 +7,7 @@ import {
   postUpload,
   deleteVideo,
 } from "../controllers/videoController";
-import { protectorMiddleware } from "../middlewares";
+import { protectorMiddleware, videoUpload } from "../middlewares";
 //각각의 js 파일들은 자기만의 세계를 갖고 있음
 //그러니 각 파일마다 import 시킬거 입력해야 함
 
@@ -27,7 +27,7 @@ videoRouter
   .route("/upload")
   .all(protectorMiddleware)
   .get(getUpload)
-  .post(postUpload);
+  .post(videoUpload.single("video"), postUpload);
 
 //다른 js파일에 export
 export default videoRouter;
