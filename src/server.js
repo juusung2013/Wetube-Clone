@@ -31,6 +31,7 @@ app.use(localsMiddleware);
 
 //모든 Router 연결
 app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static("assets"));
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
